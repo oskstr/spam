@@ -1,0 +1,17 @@
+org: oskstr
+app: spam
+service: spam
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+	
+functions:
+  spam:
+    handler: dist/spam.handler
+    events:
+      - http:
+          path: spam
+          method: GET
+          cors: true

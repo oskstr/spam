@@ -2,8 +2,10 @@
   "name": "spam",
   "version": "1.0.0",
   "description": "Email service",
-  "main": "index.js",
+  "main": "dist/spam.js",
   "scripts": {
+    "build": "tsc",
+    "deploy": "npm run build && sls deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -13,5 +15,10 @@
     "ses"
   ],
   "author": "Oskar Strömberg",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.68",
+    "@types/node": "^14.14.16",
+    "typescript": "^4.1.3"
+  }
 }
