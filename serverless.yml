@@ -15,4 +15,3 @@ functions:
           path: spam
           method: GET
           cors: true
-
