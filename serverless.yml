@@ -4,14 +4,28 @@ service: spam
 
 provider:
   name: aws
+  region: eu-west-1
   runtime: nodejs12.x
   stage: dev
-	
+  apiGateway:
+    shouldStartNameWithService: true
+  lambdaHashingVersion: 20201221
+
 functions:
-  spam:
-    handler: dist/spam.handler
+  ping:
+    handler: dist/api.ping
     events:
       - http:
-          path: spam
+          path: api/ping
           method: GET
           cors: true
+  sendMail:
+    handler: dist/api.sendMail
+    events:
+      - http:
+          path: api/sendmail
+          method: POST
+          cors: true
+          request:
+            schema: ${file(models/email.yml)}
+

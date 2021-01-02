@@ -1,0 +1,44 @@
+application/json:
+  definitions: { }
+  "$schema": http://json-schema.org/draft-07/schema#
+  title: Email
+  type: object
+  oneOf:
+    - required:
+        - to
+        - from
+        - subject
+        - html
+    - required:
+        - to
+        - from
+        - subject
+        - content
+  properties:
+    to:
+      type: string
+      format: email
+    from:
+      type: string
+      format: email
+      anyOf:
+        - enum:
+            - valberedning@d.kth.se
+            - titel@d.kth.se
+        - pattern: "^.+@datasektionen.se$"
+    replyTo:
+      type: string
+      format: email
+    subject:
+      type: string
+      minLength: 1
+    html:
+      type: string
+      minLength: 1
+    content:
+      type: string
+      minLength: 1
+    template:
+      type: string
+      enum:
+        - default
