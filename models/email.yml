@@ -25,6 +25,7 @@ application/json:
         - enum:
             - valberedning@d.kth.se
             - titel@d.kth.se
+            - oskar@stromberg.io
         - pattern: "^.+@datasektionen.se$"
     replyTo:
       type: string

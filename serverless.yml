@@ -4,6 +4,12 @@ service: spam
 
 provider:
   name: aws
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+        - ses:SendRawEmail
+      Resource: "*"
   region: eu-west-1
   runtime: nodejs12.x
   stage: dev
@@ -19,7 +25,7 @@ functions:
           path: api/ping
           method: GET
           cors: true
-  sendMail:
+  send-mail:
     handler: dist/api.sendMail
     events:
       - http:
