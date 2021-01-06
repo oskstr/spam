@@ -1,6 +1,9 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
-const aws = require("aws-sdk");
-const ses = new aws.SES({region: "eu-west-1"});
+import { PromiseResult } from 'aws-sdk/lib/request';
+import { SES, AWSError } from 'aws-sdk';
+import { SendEmailResponse } from 'aws-sdk/clients/ses';
+
+const ses = new SES();
 
 interface EmailRequest {
     to: string;
@@ -8,7 +11,7 @@ interface EmailRequest {
     replyTo?: string;
     subject: string;
     html?: string;
-    content?: string;
+    content: string;
     template?: string;
 }
 
@@ -19,7 +22,7 @@ export const ping = async (event: APIGatewayEvent): Promise<APIGatewayProxyResul
     }
 }
 
-export const sendMail = async ({ body }: { body: string }): Promise<any> => {
+export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayProxyResult> => {
     const email: EmailRequest = JSON.parse(body);
 
     if (email.html) {
@@ -32,19 +35,32 @@ export const sendMail = async ({ body }: { body: string }): Promise<any> => {
 
     const params = {
         Destination: {
-            ToAddresses: [email["to"] || 'oskar@stromberg.io'],
+            ToAddresses: [to],
         },
         Message: {
             Body: {
-                Text: { Data: email["content"] || "content non-existent"},
+                Text: { Data: content },
             },
 
-            Subject: { Data: email["subject"] || "no subject"},
+            Subject: { Data: subject },
         },
-        Source: email.from || 'oskar@stromberg.io',
+        Source: from,
     };
 
-
-    return ses.sendEmail(params).promise()
+    return await ses.sendEmail(params).promise()
+        .then((status: PromiseResult<SendEmailResponse, AWSError>) => {
+            console.log('status', status)
+            return {
+                statusCode: 200,
+                body: JSON.stringify(status)
+            }
+        })
+        .catch((error: AWSError) => {
+            console.log('error', error)
+            return {
+                statusCode: error.statusCode || 500,
+                body: JSON.stringify(error)
+            }
+        })
 }
 
