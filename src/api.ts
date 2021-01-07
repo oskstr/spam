@@ -2,6 +2,7 @@ import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { SES, AWSError } from 'aws-sdk';
 import nodemailer from 'nodemailer';
 import Email from 'email-templates';
+import MarkdownIt from 'markdown-it';
 
 interface EmailRequest {
     to: string;
@@ -16,13 +17,13 @@ interface EmailRequest {
 export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayProxyResult> => {
     const email: EmailRequest = JSON.parse(body);
 
+    console.log("email", email)
+
     if (email.html) {
         email.content = email.html
     }
 
     const {to, from , replyTo, subject, content, template} = email
-
-    console.log("email", email)
 
     const transporter = nodemailer.createTransport({
         SES: new SES()
@@ -38,6 +39,12 @@ export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayPr
         message: {}
     })
 
+    const md = new MarkdownIt({
+        html: true,
+        linkify: true,
+    })
+
+
     return await mail.send({
         message: {
             from,
@@ -48,10 +55,11 @@ export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayPr
         },
         template: template || 'default',
         locals: {
-            content,
+            content: md.render(content),
             raw_content: content
         }
-    }).then((status: any) => {
+    })
+        .then((status: any) => {
             console.log('status', status)
             return {
                 statusCode: 200,
@@ -65,39 +73,9 @@ export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayPr
                 body: JSON.stringify(error)
             }
         })
-
-    // const params = {
-    //     Destination: {
-    //         ToAddresses: [to],
-    //     },
-    //     Message: {
-    //         Body: {
-    //             Text: { Data: content },
-    //         },
-    //
-    //         Subject: { Data: subject },
-    //     },
-    //     Source: from,
-    // };
-    //
-    // return await ses.sendEmail(params).promise()
-    //     .then((status: PromiseResult<SendEmailResponse, AWSError>) => {
-    //         console.log('status', status)
-    //         return {
-    //             statusCode: 200,
-    //             body: JSON.stringify(status)
-    //         }
-    //     })
-    //     .catch((error: AWSError) => {
-    //         console.error('error', error)
-    //         return {
-    //             statusCode: error.statusCode || 500,
-    //             body: JSON.stringify(error)
-    //         }
-    //     })
 }
 
-export const ping = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
+export const ping = async (_: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
     return {
         statusCode: 200,
         body: "I'm alive!\n"
