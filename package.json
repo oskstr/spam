@@ -2,7 +2,7 @@
   "name": "spam",
   "version": "1.0.0",
   "description": "Email service",
-  "main": "dist/spam.js",
+  "main": "dist/src/api.js",
   "scripts": {
     "build": "tsc",
     "deploy": "npm run build && sls deploy",

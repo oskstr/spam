@@ -19,14 +19,14 @@ provider:
 
 functions:
   ping:
-    handler: dist/api.ping
+    handler: dist/src/api.ping
     events:
       - http:
           path: api/ping
           method: GET
           cors: true
   send-mail:
-    handler: dist/api.sendMail
+    handler: dist/src/api.sendMail
     events:
       - http:
           path: api/sendmail
