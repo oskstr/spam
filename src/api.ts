@@ -37,7 +37,7 @@ const md = new MarkdownIt({
 
 export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayProxyResult> => {
     const email: EmailRequest = JSON.parse(body);
-    console.log("email", email)
+    // console.info("email", email)
 
     if (email.html) {
         email.content = email.html
@@ -60,14 +60,14 @@ export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayPr
         }
     })
         .then((status: any) => {
-            console.log('status', status)
+            // console.info('status', status)
             return {
                 statusCode: 200,
                 body: JSON.stringify(status)
             }
         })
         .catch((error: AWSError) => {
-            console.log('error', error)
+            // console.error('error', error)
             return {
                 statusCode: error.statusCode || 500,
                 body: JSON.stringify(error)
