@@ -1,4 +1,4 @@
-import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyResult } from 'aws-lambda';
 import { SES, AWSError } from 'aws-sdk';
 import nodemailer from 'nodemailer';
 import Email from 'email-templates';
@@ -75,7 +75,7 @@ export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayPr
         })
 }
 
-export const ping = async (_: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
+export const ping = async (): Promise<APIGatewayProxyResult> => {
     return {
         statusCode: 200,
         body: "I'm alive!\n"
