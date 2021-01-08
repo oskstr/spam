@@ -3,10 +3,11 @@ import { SES, AWSError } from 'aws-sdk';
 import nodemailer from 'nodemailer';
 import Email from 'email-templates';
 import MarkdownIt from 'markdown-it';
+import Mail from 'nodemailer/lib/mailer';
 
 interface EmailRequest {
-    to: string;
-    from: string;
+    to: string | Mail.Address | Array<string> | Array<Mail.Address>;
+    from: string | Mail.Address;
     replyTo?: string;
     subject: string;
     html?: string;
@@ -14,9 +15,28 @@ interface EmailRequest {
     template?: string;
 }
 
+const transporter = nodemailer.createTransport({
+    SES: new SES()
+})
+
+const mail = new Email({
+    htmlToText: false,
+    transport: transporter,
+    views: {
+        options: { extension: 'ejs' }
+    },
+    // send: true, // Send emails even in dev/test environments
+    message: {}
+})
+
+const md = new MarkdownIt({
+    html: true,
+    linkify: true,
+})
+
+
 export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayProxyResult> => {
     const email: EmailRequest = JSON.parse(body);
-
     console.log("email", email)
 
     if (email.html) {
@@ -24,26 +44,6 @@ export const sendMail = async ({ body }: { body: string }): Promise<APIGatewayPr
     }
 
     const {to, from , replyTo, subject, content, template} = email
-
-    const transporter = nodemailer.createTransport({
-        SES: new SES()
-    })
-
-    const mail = new Email({
-        htmlToText: false,
-        transport: transporter,
-        views: {
-            options: { extension: 'ejs' }
-        },
-        send: true,
-        message: {}
-    })
-
-    const md = new MarkdownIt({
-        html: true,
-        linkify: true,
-    })
-
 
     return await mail.send({
         message: {
