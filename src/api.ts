@@ -46,7 +46,7 @@ export const sendMail = async ({body}: {body: string}): Promise<APIGatewayProxyR
 
     const {to, cc, bcc, from , replyTo, subject, content, template} = email
 
-    return await mail.send({
+    return mail.send({
         message: {
             from,
             replyTo: replyTo || from,

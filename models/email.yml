@@ -1,81 +1,80 @@
-application/json:
-  definitions:
-    address:
-      type: object
-      properties:
-        name:
-          type: string
-        address:
-          type: string
-          format: email
-      required:
-        - name
-        - address
-    email:
-      oneOf:
-        - type: string
-          format: email
-        - "$ref": "#/definitions/address"
-    recipients:
-      oneOf:
-        - "$ref": "#/definitions/email"
-        - type: array
-          items:
-            "$ref": "#/definitions/email"
-    verified:
-      anyOf:
-        - enum:
-            - valberedning@d.kth.se
-            - titel@d.kth.se
-            - oskar@stromberg.io
-        - pattern: "^.+@datasektionen.se$"
-    verified_address:
-      oneOf:
-        - allOf:
-            - type: string
-              format: email
-            - "$ref": "#/definitions/verified"
-        - allOf:
-            - "$ref": "#/definitions/address"
-            - properties:
-                address:
-                  "$ref": "#/definitions/verified"
-  "$schema": http://json-schema.org/draft-07/schema#
-  title: Email
-  type: object
-  oneOf:
-    - required:
-        - to
-        - from
-        - subject
-        - html
-    - required:
-        - to
-        - from
-        - subject
-        - content
-  properties:
-    to:
-      "$ref": "#/definitions/recipients"
-    cc:
-      "$ref": "#/definitions/recipients"
-    bcc:
-      "$ref": "#/definitions/recipients"
-    from:
-      "$ref": "#/definitions/verified_address"
-    replyTo:
-      "$ref": "#/definitions/email"
-    subject:
-      type: string
-      minLength: 1
-    html:
-      type: string
-      minLength: 1
-    content:
-      type: string
-      minLength: 1
-    template:
-      type: string
-      enum:
-        - default
-        - empty
+definitions:
+  address:
+    type: object
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+        format: email
+    required:
+      - name
+      - address
+  email:
+    oneOf:
+      - type: string
+        format: email
+      - "$ref": "#/definitions/address"
+  recipients:
+    oneOf:
+      - "$ref": "#/definitions/email"
+      - type: array
+        items:
+          "$ref": "#/definitions/email"
+  verified:
+    anyOf:
+      - enum:
+          - valberedning@d.kth.se
+          - titel@d.kth.se
+          - oskar@stromberg.io
+      - pattern: "^.+@datasektionen.se$"
+  verified_address:
+    oneOf:
+      - allOf:
+          - type: string
+            format: email
+          - "$ref": "#/definitions/verified"
+      - allOf:
+          - "$ref": "#/definitions/address"
+          - properties:
+              address:
+                "$ref": "#/definitions/verified"
+"$schema": http://json-schema.org/draft-07/schema#
+title: Email
+type: object
+oneOf:
+  - required:
+      - to
+      - from
+      - subject
+      - html
+  - required:
+      - to
+      - from
+      - subject
+      - content
+properties:
+  to:
+    "$ref": "#/definitions/recipients"
+  cc:
+    "$ref": "#/definitions/recipients"
+  bcc:
+    "$ref": "#/definitions/recipients"
+  from:
+    "$ref": "#/definitions/verified_address"
+  replyTo:
+    "$ref": "#/definitions/email"
+  subject:
+    type: string
+    minLength: 1
+  html:
+    type: string
+    minLength: 1
+  content:
+    type: string
+    minLength: 1
+  template:
+    type: string
+    enum:
+      - default
+      - empty

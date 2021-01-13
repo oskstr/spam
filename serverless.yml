@@ -18,6 +18,8 @@ provider:
   lambdaHashingVersion: 20201221
 
 functions:
+  auth:
+    handler: dist/src/auth.handler
   ping:
     handler: dist/src/api.ping
     events:
@@ -33,5 +35,9 @@ functions:
           method: POST
           cors: true
           request:
-            schema: ${file(models/email.yml)}
-
+            schema:
+              application/json: ${file(models/email.yml)}
+          authorizer:
+            name: auth
+            type: request
+            identitySource: method.request.querystring.api_key
