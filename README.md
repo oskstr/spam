@@ -10,4 +10,6 @@ npm run deploy
 ```
 
 if you want to try to send actual emails - 
-you may have to verify through aws.
+you may have to verify address through aws.
+
+

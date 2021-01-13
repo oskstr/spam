@@ -12,7 +12,6 @@ provider:
       Resource: "*"
   region: eu-west-1
   runtime: nodejs12.x
-  stage: dev
   apiGateway:
     shouldStartNameWithService: true
   lambdaHashingVersion: 20201221
@@ -20,6 +19,8 @@ provider:
 functions:
   auth:
     handler: dist/src/auth.handler
+    environment:
+      PLS_HOST: ${param:PLS_HOST, 'http://localhost:5000'}
   ping:
     handler: dist/src/api.ping
     events:
@@ -41,3 +42,6 @@ functions:
             name: auth
             type: request
             identitySource: method.request.querystring.api_key
+
+plugins:
+  - serverless-offline

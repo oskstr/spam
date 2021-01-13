@@ -31,7 +31,7 @@ export const handler = async (event: APIGatewayRequestAuthorizerEvent): Promise<
 
     const tag = key.split('-')[0] ?? '*'
 
-    return axios.get(`https://pls.datasektionen.se/api/token/${key}/spam`)
+    return axios.get(`${process.env.PLS_HOST}/api/token/${key}/spam`)
         .then(({data}: {data: string[]}) => {
             if (data.includes('send')) {
                 return allowAll(tag, event.methodArn)
@@ -39,7 +39,7 @@ export const handler = async (event: APIGatewayRequestAuthorizerEvent): Promise<
                 return denyAll(tag)
             }
         }).catch(_error => {
-            return denyAll(tag)
+            throw Error('Unauthorized')
         })
 }
 
