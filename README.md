@@ -79,7 +79,8 @@ Pls.Queries.Token.add_token "<tag>", "spam"
 
 with some value `<tag>`. An example with the tag `test` could return a token on the format: `token: test-IxRRnRDViM84QzcChkWJj1egO_OCvWg7AVhJiGSYRMI`.
   
-
+### Workflow 
+![AWS Diagram](https://i.imgur.com/fv5n13r.png)
 
 
 
