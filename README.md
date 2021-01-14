@@ -39,7 +39,7 @@ npm i
 The Serverless Framework is used to deploy the service to AWS.
 
 The configuration can be found in [serverless.yml](serverless.yml).
-It automatically configures AWS API Gateway and the AWS Lambdas.
+It automatically configures Amazon API Gateway and the AWS Lambdas.
 
 To connect Serverless to AWS, run:
 ```bash
@@ -53,6 +53,10 @@ npm run deploy:prod # builds src and deploys to prod stage
 ```
 
 Once you have deployed a stage you can enter a parameter called `PLS_HOST` there.
+Keep in mind that emails are not actually going to be sent in `dev` or `test`
+environments and if you want to send actual emails you need to verify an email
+address through Amazon SES and temporarily add it to the list of verified addresses
+in [models/email.yml](models/email.yml). 
 
 If you would rather run locally:
 ```bash
@@ -79,16 +83,21 @@ Pls.Queries.Token.add_token "<tag>", "spam"
 
 with some value `<tag>`. An example with the tag `test` could return a token on the format: `token: test-IxRRnRDViM84QzcChkWJj1egO_OCvWg7AVhJiGSYRMI`.
   
-### Workflow 
+### Workflow
 ![AWS Diagram](https://i.imgur.com/fv5n13r.png)
 
+When sending a request to spam it will first hit the Amazon API Gateway and 
+the `api_key` will be checked against pls to see that the sender has the 
+correct permission. The result will be cached. 
 
+If they do have the correct permissions, the request will be checked against 
+a [JSON Schema](https://json-schema.org/) to make sure the request body has 
+the correct format. Including all required fields and that the email address 
+have the correct format and sent from a verified address.
 
+If all that is in order the request will be sent to the Lambda which will send an email.
 
------
-
-if you want to try to send actual emails - 
-you may have to verify address through aws.
+### Email Templates
 
 
 ---
