@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc",
     "deploy": "npm run build && sls deploy",
-    "local": "npm run build && sls offline",
+    "deploy:prod": "npm run build && sls deploy -s prod",
+    "local": "npm run build && sls offline -s local",
+    "local:no-auth": "npm run build && sls offline -s local --noAuth",
     "test": "mocha -r ts-node/register test/*.ts"
   },
   "keywords": [

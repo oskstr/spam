@@ -1,4 +1,4 @@
-org: oskstr
+org: datasektionen
 app: spam
 service: spam
 
@@ -20,7 +20,7 @@ functions:
   auth:
     handler: dist/src/auth.handler
     environment:
-      PLS_HOST: ${param:PLS_HOST, 'http://localhost:5000'}
+      PLS_HOST: ${param:PLS_HOST, env:PLS_HOST, 'http://localhost:5000'}
   ping:
     handler: dist/src/api.ping
     events:
