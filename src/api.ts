@@ -55,13 +55,13 @@ export const sendMail = async ({body}: {body: string}): Promise<APIGatewayProxyR
             cc,
             bcc,
         },
-        template: template || 'default',
+        template: template ?? 'default',
         locals: {
             content: md.render(content),
             raw_content: content
         }
     })
-        .then((status: any) => {
+        .then(status => {
             // console.info('status', status)
             return {
                 statusCode: 200,
