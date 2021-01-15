@@ -85,7 +85,9 @@ Pls.Queries.Group.add_permission "spam", "send"
 Pls.Queries.Token.add_token "<tag>", "spam"
 ```
 
-with some value `<tag>`. An example with the tag `test` could return a token on the format: `token: test-IxRRnRDViM84QzcChkWJj1egO_OCvWg7AVhJiGSYRMI`.
+with some value `<tag>`. An example with the tag `test` could return a token on the format: 
+
+`token: test-IxRRnRDViM84QzcChkWJj1egO_OCvWg7AVhJiGSYRMI`.
   
 ### Workflow
 ![AWS Diagram](https://i.imgur.com/fv5n13r.png)
@@ -96,13 +98,22 @@ correct permission. The result will be cached.
 
 If they do have the correct permissions, the request will be checked against 
 a [JSON Schema](https://json-schema.org/) to make sure the request body has 
-the correct format. Including all required fields and that the email address 
+the correct format. Including all required fields and that the email addresses 
 have the correct format and sent from a verified address.
 
 If all that is in order the request will be sent to the Lambda which will send an email.
 
 ### Email Templates
+The optional field `template` corresponds to an `.ejs` template in
+the [`emails/`](/emails) folder. Currently, the ones available 
+are:
+ - `default`
+ - `empty` 
 
+To create another template, simply add another subfolder of the name 
+you want and add it to [`models/email.yml`](/models/email.yml) in 
+the list of allowed templates. 
+Also, please update the list above accordingly.
 
 ---
 ![spam](http://media.boingboing.net/wp-content/uploads/2016/01/Spam-Can.jpg)
