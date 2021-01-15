@@ -16,7 +16,7 @@ The key needs to have the permission `send` in the `spam` system.
     "bar@example.com"
   ],
   "subject": "Test email title",
-  "content": "# Menu\n - Egg, bacon and spam\n- Spam, bacon, sausage and spam"
+  "content": "# Menu\n - Egg, bacon and spam\n - Spam, bacon, sausage and spam"
 }
 ```
 
@@ -52,6 +52,10 @@ npm run deploy      # builds src and deploys to dev stage
 npm run deploy:prod # builds src and deploys to prod stage
 ```
 
+It will be deployed to the `org` specified in [serverless.yml](serverless.yml)
+so if you want to deploy to your personal account you may have to change
+that value.
+
 Once you have deployed a stage you can enter a parameter called `PLS_HOST` there.
 Keep in mind that emails are not actually going to be sent in `dev` or `test`
 environments and if you want to send actual emails you need to verify an email
@@ -72,7 +76,7 @@ For local development, if you don't have an API key, you can either bypass the a
 you can run a local instance of **pls**.
 
 To run a local pls instance you can download the source code from its [repo](https://github.com/datasektionen/pls).
-Follow the `README.md` to install and start the server. It will automatically run at [`http://localhost:5000`](http://localhost:5000).
+Follow the [`README.md`](https://github.com/datasektionen/pls#readme) to install and start the server. It will automatically run at [`http://localhost:5000`](http://localhost:5000).
 
 To create a valid token you will need to enter the following commands:
 
