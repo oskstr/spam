@@ -7,7 +7,7 @@ through the permission system [pls](https://pls.datasektionen.se).
 The key needs to have the permission `send` in the `spam` system.
 
 ### Example Request
-#### `GET /api/sendmail?api_key=ABC...`
+#### `POST /api/sendmail?api_key=ABC...`
 ```json
 {
   "from": "no-reply@datasektionen.se",
@@ -85,7 +85,7 @@ Pls.Queries.Group.add_permission "spam", "send"
 Pls.Queries.Token.add_token "<tag>", "spam"
 ```
 
-with some value `<tag>`. An example with the tag `test` could return a token on the format: 
+with some value `<tag>`. An example with the tag `test` should return a token on the format:
 
 `token: test-IxRRnRDViM84QzcChkWJj1egO_OCvWg7AVhJiGSYRMI`.
   
