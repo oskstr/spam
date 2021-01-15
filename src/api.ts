@@ -49,12 +49,11 @@ export const sendMail = async ({body}: {body: string}): Promise<APIGatewayProxyR
     return mail.send({
         message: {
             from,
-            replyTo: replyTo || from,
+            replyTo: replyTo ?? from,
             subject,
             to,
             cc,
             bcc,
-            attachments: [],
         },
         template: template || 'default',
         locals: {
