@@ -1,4 +1,6 @@
 # Spam
+![Deploy Action](.github/workflows/deploy.yml/badge.svg)
+
 
 A system for sending emails located at [spam.datasektionen.se](https://spam.datasektionen.se).
 
