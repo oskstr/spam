@@ -1,4 +1,5 @@
 # Spam
+[![Deploy](https://github.com/oskstr/spam/workflows/Deploy/badge.svg)](https://github.com/oskstr/spam/actions?query=workflow%3ADeploy)
 
 A system for sending emails located at [spam.datasektionen.se](https://spam.datasektionen.se).
 
