@@ -1,3 +1,42 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: Email
+type: object
+oneOf:
+  - required:
+      - to
+      - from
+      - subject
+      - html
+  - required:
+      - to
+      - from
+      - subject
+      - content
+properties:
+  to:
+    $ref: "#/definitions/recipients"
+  cc:
+    $ref: "#/definitions/recipients"
+  bcc:
+    $ref: "#/definitions/recipients"
+  from:
+    $ref: "#/definitions/verified_address"
+  replyTo:
+    $ref: "#/definitions/email"
+  subject:
+    type: string
+    minLength: 1
+  html:
+    type: string
+    minLength: 1
+  content:
+    type: string
+    minLength: 1
+  template:
+    type: string
+    enum:
+      - default
+      - empty
 definitions:
   address:
     type: object
@@ -14,13 +53,13 @@ definitions:
     oneOf:
       - type: string
         format: email
-      - "$ref": "#/definitions/address"
+      - $ref: "#/definitions/address"
   recipients:
     oneOf:
-      - "$ref": "#/definitions/email"
+      - $ref: "#/definitions/email"
       - type: array
         items:
-          "$ref": "#/definitions/email"
+          $ref: "#/definitions/email"
   verified:
     anyOf:
       - enum:
@@ -33,48 +72,9 @@ definitions:
       - allOf:
           - type: string
             format: email
-          - "$ref": "#/definitions/verified"
+          - $ref: "#/definitions/verified"
       - allOf:
-          - "$ref": "#/definitions/address"
+          - $ref: "#/definitions/address"
           - properties:
               address:
-                "$ref": "#/definitions/verified"
-"$schema": http://json-schema.org/draft-07/schema#
-title: Email
-type: object
-oneOf:
-  - required:
-      - to
-      - from
-      - subject
-      - html
-  - required:
-      - to
-      - from
-      - subject
-      - content
-properties:
-  to:
-    "$ref": "#/definitions/recipients"
-  cc:
-    "$ref": "#/definitions/recipients"
-  bcc:
-    "$ref": "#/definitions/recipients"
-  from:
-    "$ref": "#/definitions/verified_address"
-  replyTo:
-    "$ref": "#/definitions/email"
-  subject:
-    type: string
-    minLength: 1
-  html:
-    type: string
-    minLength: 1
-  content:
-    type: string
-    minLength: 1
-  template:
-    type: string
-    enum:
-      - default
-      - empty
+                $ref: "#/definitions/verified"
