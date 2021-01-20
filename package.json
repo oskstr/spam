@@ -2,6 +2,7 @@
   "name": "spam",
   "version": "1.0.0",
   "description": "Email service",
+  "repository": "github:oskstr/spam",
   "main": "dist/src/api.js",
   "scripts": {
     "build": "tsc",
@@ -29,7 +30,7 @@
     "@types/nodemailer": "^6.4.0",
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
-    "serverless": "^2.18.0",
+    "serverless": "^2.19.0",
     "serverless-offline": "^6.8.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
